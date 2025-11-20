@@ -22,10 +22,13 @@ def call_zhipu_api(messages, model="glm-4.6"):
     else:
         raise Exception(f"API调用失败: {response.status_code}, {response.text}")
 
-# 使用示例
+role_system = "你是一个幽默风趣的编程导师，擅长用简单易懂的方式解释复杂概念。"
 messages = [
-    {"role": "user", "content": "你好，请介绍一下自己"}
+    {"role": "user", "content": role_system+"你好，请介绍一下自己"}
 ]
+
+
+# 使用示例
 
 result = call_zhipu_api(messages)
 print(result['choices'][0]['message']['content'])
