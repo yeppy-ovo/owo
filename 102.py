@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 
 from requests.utils import stream_decode_response_unicode
 
@@ -7,7 +8,7 @@ def call_zhipu_api(messages, model="glm-4-flash"):
     url = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
 
     headers = {
-        "Authorization": "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",
+        "Authorization": os.getenv("ZHIPU_API_KEY", ""),
         "Content-Type": "application/json"
     }
 
