@@ -41,16 +41,16 @@ game_system = f"""你正在玩卡牌对策游戏，用户作为一方，你作�
 3. 完成五个回合的情况下，生命值高的一方获胜
 4. 哈利的特性是用低于三费的卡牌伤害增加50%，赫敏的特性是每使用三张卡牌费用最高的卡牌费用减半，向下取整不为0
 5. 哈利的卡组是
-昏昏倒地4费40点攻击
-飞沙走石2费20点攻击
-万弹齐发2费20点攻击
-火焰熊熊4费30点攻击
-除你武器3费30点攻击，特殊效果使对方下一回合禁用卡组剩余卡中费用费用最高的卡牌
+昏昏倒地4费20点攻击
+飞沙走石2费10点攻击
+万弹齐发2费10点攻击
+火焰熊熊4费20点攻击
+除你武器3费15点攻击，特殊效果使对方下一回合禁用卡组剩余卡中费用费用最高的卡牌
 6. 赫敏的卡组的
-清水如泉3费30点攻击
+清水如泉3费15点攻击
 变形咒2费10点攻击
-冰冻咒4费30点攻击
-霹雳爆炸5费50点攻击
+冰冻咒4费20点攻击
+霹雳爆炸5费25点攻击
 闪回咒，特殊效果复制自己使用上一张牌的费用和攻击
 7. 每轮出牌前列出当前状态和可使用卡牌，每轮使用完总结双方的生命值费用和剩余卡牌
 8. 使用卡牌后依据多少费扣除魔力值
@@ -99,18 +99,18 @@ class FixedGame:
         
         # 卡组定义
         self.harry_cards = {
-            "昏昏倒地": {"cost": 4, "damage": 40, "special": None},
-            "飞沙走石": {"cost": 2, "damage": 20, "special": None},
-            "万弹齐发": {"cost": 2, "damage": 20, "special": None},
-            "火焰熊熊": {"cost": 4, "damage": 30, "special": None},
-            "除你武器": {"cost": 3, "damage": 30, "special": "disarm"}
+            "昏昏倒地": {"cost": 4, "damage": 20, "special": None},
+            "飞沙走石": {"cost": 2, "damage": 10, "special": None},
+            "万弹齐发": {"cost": 2, "damage": 10, "special": None},
+            "火焰熊熊": {"cost": 4, "damage": 20, "special": None},
+            "除你武器": {"cost": 3, "damage": 15, "special": "disarm"}
         }
         
         self.hermione_cards = {
-            "清水如泉": {"cost": 3, "damage": 30, "special": None},
+            "清水如泉": {"cost": 3, "damage": 15, "special": None},
             "变形咒": {"cost": 2, "damage": 10, "special": None},
-            "冰冻咒": {"cost": 4, "damage": 30, "special": None},
-            "霹雳爆炸": {"cost": 5, "damage": 50, "special": None},
+            "冰冻咒": {"cost": 4, "damage": 20, "special": None},
+            "霹雳爆炸": {"cost": 5, "damage": 25, "special": None},
             "闪回咒": {"cost": 0, "damage": 0, "special": "copy"}
         }
         
