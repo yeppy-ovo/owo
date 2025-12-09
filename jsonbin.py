@@ -1,11 +1,12 @@
 import requests
 from datetime import datetime
 
-def save_latest_reply(text, bin_id=None, access_key=None):
-    if not bin_id or not access_key:
-        return False
-    
-    url = f"https://api.jsonbin.io/v3/b/{bin_id}"
+JSONBIN_BIN_ID = "693666ce43b1c97be9df001c"
+JSONBIN_ACCESS_KEY = "$2a$10$Vx9xdZLj14w8Tmdy7Bhqwu74fcQVBHN5trY4ABjxztuEdNLjuKT6a"
+
+JSONBIN_URL = f"https://api.jsonbin.io/v3/b/{JSONBIN_BIN_ID}"
+
+def save_latest_reply(text):
     data = {
         "text": text,
         "timestamp": datetime.now().isoformat(),
@@ -14,10 +15,10 @@ def save_latest_reply(text, bin_id=None, access_key=None):
     
     try:
         response = requests.put(
-            url,
+            JSONBIN_URL,
             json=data,
             headers={
-                "X-Access-Key": access_key,
+                "X-Access-Key": JSONBIN_ACCESS_KEY,
                 "Content-Type": "application/json"
             }
         )
@@ -28,27 +29,22 @@ def save_latest_reply(text, bin_id=None, access_key=None):
         print(f"JSONBin Save Exception: {e}")
         return False
 
-def get_latest_reply(bin_id=None, access_key=None):
-    if not bin_id or not access_key:
-        return {"has_new": False, "text": None}
-    
+def get_latest_reply():
     try:
-        url = f"https://api.jsonbin.io/v3/b/{bin_id}/latest"
         response = requests.get(
-            url,
-            headers={"X-Access-Key": access_key}
+            JSONBIN_URL + "/latest",
+            headers={"X-Access-Key": JSONBIN_ACCESS_KEY}
         )
         if response.status_code == 200:
             data = response.json().get("record", {})
             if not data.get("read", False):
                 data["read"] = True
                 requests.put(
-                    f"https://api.jsonbin.io/v3/b/{bin_id}",
+                    JSONBIN_URL,
                     json=data,
-                    headers={"X-Access-Key": access_key}
+                    headers={"X-Access-Key": JSONBIN_ACCESS_KEY}
                 )
                 return {"has_new": True, "text": data.get("text")}
         return {"has_new": False, "text": None}
     except:
         return {"has_new": False, "text": None}
-
