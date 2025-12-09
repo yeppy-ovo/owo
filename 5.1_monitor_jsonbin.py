@@ -3,7 +3,7 @@ import time
 import json
 
 # 配置 (与 jsonbin.py 保持一致)
-BIN_ID = "693666ce43b1c97be9df001c"
+BIN_ID = "693835cfae596e708f8de95d"
 ACCESS_KEY = "$2a$10$/.sN9BgX8E0h4eP8qgOOruBxCiuD.Pr48d/w.s/E8T3OSc9dqfE22"
 URL = f"https://api.jsonbin.io/v3/b/{BIN_ID}/latest"
 HEADERS = {"X-Access-Key": ACCESS_KEY}
