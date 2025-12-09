@@ -2,7 +2,7 @@ from api import call_zhipu_api
 from roles import get_break_rules
 from jsonbin import save_latest_reply
 
-def chat_once(history, user_input, role_prompt):
+def chat_once(history, user_input, role_prompt, bin_id=None, access_key=None):
     history.append({"role": "user", "content": user_input})
     
     system_message = role_prompt + "\n\n" + get_break_rules()
@@ -13,6 +13,8 @@ def chat_once(history, user_input, role_prompt):
     
     history.append({"role": "assistant", "content": reply})
     
-    save_latest_reply(reply)
+    if bin_id and access_key:
+        save_latest_reply(reply, bin_id, access_key)
     
     return reply
+
