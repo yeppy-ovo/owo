@@ -1,8 +1,17 @@
 import json
 import os
 
-# 记忆文件夹路径
-MEMORY_FOLDER = "memory"
+# ========== 路径配置 ==========
+# 获取当前模块的绝对路径
+MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# memory文件夹路径 - 使用绝对路径
+MEMORY_FOLDER = os.path.join(MODULE_DIR, "memory")
+
+# 确保memory文件夹存在
+if not os.path.exists(MEMORY_FOLDER):
+    os.makedirs(MEMORY_FOLDER, exist_ok=True)
+    print(f"创建memory文件夹: {MEMORY_FOLDER}")
 
 # 角色名到记忆文件名的映射
 ROLE_MEMORY_MAP = {
@@ -10,7 +19,7 @@ ROLE_MEMORY_MAP = {
     "小羊": "sheep_memory.json"
 }
 
-# 基础人格设定
+# ========== 基础人格设定 ==========
 ROLE_PERSONALITY = {
     "小羊": """
     【人格特征】
@@ -69,10 +78,16 @@ def load_memory(role_name):
                         print(f"✓ 已加载角色 '{role_name}' 的记忆: {memory_file} ({len(data) if isinstance(data, list) else 1} 条记录)")
                     else:
                         memory_content = ""
+                        print(f"⚠ 记忆文件 '{memory_file}' 内容为空")
             else:
                 print(f"⚠ 记忆文件不存在: {memory_path}")
+                # 创建空的记忆文件
+                with open(memory_path, 'w', encoding='utf-8') as f:
+                    json.dump([], f)
+                print(f"✓ 已创建空的记忆文件: {memory_file}")
         except Exception as e:
             print(f"⚠ 加载记忆失败: {e}")
+            print(f"  文件路径: {memory_path}")
     
     return memory_content
 
@@ -128,3 +143,23 @@ def get_system_message(role_name):
 如果用户没有表达结束意图，则正常扮演角色。"""
     
     return role_system + "\n\n" + break_message
+
+# 测试函数
+def test_paths():
+    """
+    测试路径是否正确
+    """
+    print("=" * 50)
+    print("路径测试")
+    print(f"当前工作目录: {os.getcwd()}")
+    print(f"roles.py 所在目录: {MODULE_DIR}")
+    print(f"memory文件夹路径: {MEMORY_FOLDER}")
+    print(f"memory文件夹是否存在: {os.path.exists(MEMORY_FOLDER)}")
+    
+    if os.path.exists(MEMORY_FOLDER):
+        print(f"memory文件夹中的文件: {os.listdir(MEMORY_FOLDER)}")
+    print("=" * 50)
+
+if __name__ == "__main__":
+    # 运行路径测试
+    test_paths()
